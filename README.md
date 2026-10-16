@@ -5,9 +5,10 @@
 ```bash
 ~/dotfiles/save.sh
 cd ~/dotfiles && git add -A && git commit -m "update" && git push
+tar czf - -C ~ .ssh/id_ed25519 .ssh/id_ed25519.pub .config/t2stock/config.json | gpg -c -o ~/secrets-backup.tar.gz.gpg
 ```
 
-back up `~/.secrets` separately (it's not in the repo).
+save `secrets-backup.tar.gz.gpg` somewhere safe (usb, drive). not in the repo.
 
 ## install
 
@@ -15,6 +16,7 @@ back up `~/.secrets` separately (it's not in the repo).
 gh auth login
 git clone https://github.com/franpfeiffer/dotfiles.git ~/dotfiles
 ~/dotfiles/install.sh
+gpg -d secrets-backup.tar.gz.gpg | tar xzf - -C ~ && chmod 600 ~/.ssh/id_ed25519
 ```
 
-copy `~/.secrets` back and log out/in.
+log out and back in.
