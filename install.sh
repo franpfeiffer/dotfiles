@@ -22,7 +22,7 @@ rsync -a --backup --suffix=".pre-dotfiles" home/ "$HOME/"
 [ -d ~/.config/nvim/.git ] || { rm -rf ~/.config/nvim ~/.local/share/nvim ~/.local/state/nvim ~/.cache/nvim; git clone https://github.com/franpfeiffer/nvim.git ~/.config/nvim; }
 [ -d ~/.emacs.d ] || { git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.emacs.d && ~/.emacs.d/bin/doom install --force; }
 
-# brew (f4, t2, go)
+# brew solo para mis apps (f4, t2) hasta que estén en AUR
 [ -x /home/linuxbrew/.linuxbrew/bin/brew ] || NONINTERACTIVE=1 bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 /home/linuxbrew/.linuxbrew/bin/brew install $(<packages/brew.txt) || echo "brew falló, revisar"
 

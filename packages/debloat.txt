@@ -17,3 +17,5 @@ system-config-printer
 tobi-try
 ruby
 omarchy-nvim
+paru
+paru-debug

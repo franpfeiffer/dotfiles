@@ -28,9 +28,9 @@ dust
 efibootmgr
 emacs
 evince
-ex-vi-compat
 exfatprogs
 expac
+ex-vi-compat
 eza
 fastfetch
 fcitx5
