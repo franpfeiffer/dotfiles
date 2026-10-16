@@ -3,6 +3,10 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 
+# ask for sudo once, keep it alive until the script ends (no prompts later)
+sudo -v
+while true; do sudo -n true; sleep 50; kill -0 "$$" 2>/dev/null || exit; done &
+
 sudo pacman -Syu --needed --noconfirm $(<packages/pacman.txt)
 
 if ! command -v yay >/dev/null; then
@@ -11,12 +15,12 @@ if ! command -v yay >/dev/null; then
   (cd /tmp/yay-bin && makepkg -si --noconfirm)
 fi
 # one at a time: if an aur package is gone, keep going
-for p in $(<packages/aur.txt); do yay -S --needed --noconfirm "$p" || echo "aur failed: $p"; done
+for p in $(<packages/aur.txt); do yay -S --needed --noconfirm --sudoloop --answerclean None --answerdiff None --answeredit None --removemake "$p" || echo "aur failed: $p"; done
 
 # configs (backs up anything it overwrites)
 rsync -a --backup --suffix=".pre-dotfiles" home/ "$HOME/"
 
-[ -d ~/.oh-my-zsh ] || RUNZSH=no KEEP_ZSHRC=yes sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+[ -d ~/.oh-my-zsh ] || RUNZSH=no KEEP_ZSHRC=yes CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 [ -d ~/tpm ] || git clone https://github.com/tmux-plugins/tpm ~/tpm
 # omarchy ships its own nvim (lazyvim): delete it and clone mine
 [ -d ~/.config/nvim/.git ] || { rm -rf ~/.config/nvim ~/.local/share/nvim ~/.local/state/nvim ~/.cache/nvim; git clone https://github.com/franpfeiffer/nvim.git ~/.config/nvim; }
@@ -43,5 +47,5 @@ systemctl --user daemon-reload
 systemctl --user enable elephant.service swayosd-server.service omarchy-battery-monitor.timer 2>/dev/null || true
 
 [ -f ~/.secrets ] || { touch ~/.secrets; chmod 600 ~/.secrets; echo ">> fill in ~/.secrets with your api keys"; }
-[ "$SHELL" = "$(command -v zsh)" ] || chsh -s "$(command -v zsh)"
+[ "$SHELL" = "$(command -v zsh)" ] || sudo chsh -s "$(command -v zsh)" "$USER"
 echo "done. log out and back in."
