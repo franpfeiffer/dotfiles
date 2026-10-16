@@ -24,6 +24,8 @@ if command -v cursor >/dev/null && [ -f packages/cursor-extensions.txt ]; then
   xargs -n1 cursor --install-extension < packages/cursor-extensions.txt || true
 fi
 
+./debloat.sh
+
 systemctl --user daemon-reload
 systemctl --user enable elephant.service swayosd-server.service omarchy-battery-monitor.timer 2>/dev/null || true
 

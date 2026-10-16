@@ -48,8 +48,9 @@ if [ -f ~/.dotfiles-private ]; then
   done < ~/.dotfiles-private
 fi
 
-pacman -Qqen > packages/pacman.txt
-pacman -Qqem > packages/aur.txt
+# lo de debloat.txt nunca entra a las listas
+pacman -Qqen | grep -vxFf packages/debloat.txt > packages/pacman.txt
+pacman -Qqem | grep -vxFf packages/debloat.txt > packages/aur.txt
 command -v cursor >/dev/null && cursor --list-extensions | grep -vi neon | grep -viFf ~/.dotfiles-private > packages/cursor-extensions.txt 2>/dev/null || true
 
 echo "listo. revisá: git diff --stat"
