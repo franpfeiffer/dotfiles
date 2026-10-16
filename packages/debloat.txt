@@ -19,3 +19,4 @@ ruby
 omarchy-nvim
 paru
 paru-debug
+snapd

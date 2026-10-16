@@ -92,6 +92,7 @@ limine-snapper-sync
 linux
 linux-firmware
 llvm
+love
 lsof
 luarocks
 mako

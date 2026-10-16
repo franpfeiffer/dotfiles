@@ -26,6 +26,13 @@ rsync -a --backup --suffix=".pre-dotfiles" home/ "$HOME/"
 [ -x /home/linuxbrew/.linuxbrew/bin/brew ] || NONINTERACTIVE=1 bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 /home/linuxbrew/.linuxbrew/bin/brew install $(<packages/brew.txt) || echo "brew failed, check it"
 
+# node via mise, then global npm packages
+mise install
+mise exec -- npm i -g $(<packages/npm.txt) || echo "npm failed, check it"
+
+# claude code
+command -v claude >/dev/null || curl -fsSL https://claude.ai/install.sh | bash
+
 if command -v cursor >/dev/null && [ -f packages/cursor-extensions.txt ]; then
   xargs -n1 cursor --install-extension < packages/cursor-extensions.txt || true
 fi

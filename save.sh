@@ -6,7 +6,7 @@ cd "$(dirname "$0")"
 # ponytail: explicit list, add here whatever you want versioned
 DOTS=(
   .zshrc .tmux.conf .XCompose .gitignore_global
-  .local/bin/tmux-sessionizer
+  .local/bin/tmux-sessionizer .local/bin/opencode-99 .local/bin/ghui
   .config/hypr .config/waybar .config/walker .config/elephant .config/mako
   .config/swayosd .config/uwsm .config/omarchy .config/environment.d
   .config/systemd/user .config/fontconfig .config/fcitx5
@@ -37,6 +37,8 @@ for f, k in [("home/.config/opencode/opencode.json", "mcp"), ("home/.config/zed/
     if not d.get(k): d.pop(k, None)
     json.dump(d, open(f, "w"), indent=2)
 PY
+# node comes from mise on new machines (nvm lines stay guarded and harmless)
+grep -q 'mise activate' home/.zshrc || printf '\neval "$(mise activate zsh)"\n' >> home/.zshrc
 grep -q 'source ~/.secrets' home/.zshrc || printf '\n[ -f ~/.secrets ] && source ~/.secrets\n' >> home/.zshrc
 
 # private terms (work, etc) in ~/.dotfiles-private, one per line, outside the repo
@@ -49,11 +51,13 @@ if [ -f ~/.dotfiles-private ]; then
 fi
 
 # nothing from debloat.txt goes into the lists
-# go comes from pacman (installed via brew on this machine)
-{ pacman -Qqen; echo go; } | sort -u | grep -vxFf packages/debloat.txt > packages/pacman.txt
+# go and love come from pacman (brew and snap on this machine)
+{ pacman -Qqen; echo go; echo love; } | sort -u | grep -vxFf packages/debloat.txt > packages/pacman.txt
 pacman -Qqem | grep -vxFf packages/debloat.txt | grep -v -- '-debug$' | grep -vx omarchy-walker > packages/aur.txt
 # brew only for my own taps; everything else (go, etc) comes from pacman
 command -v brew >/dev/null && brew leaves | grep '^franpfeiffer/' > packages/brew.txt
+# global npm packages (minus npm itself and work stuff)
+npm ls -g --depth=0 --parseable 2>/dev/null | tail -n +2 | sed 's#.*/node_modules/##' | grep -vxE 'npm|corepack|neon' > packages/npm.txt || true
 command -v cursor >/dev/null && cursor --list-extensions | grep -vi neon | grep -viFf ~/.dotfiles-private > packages/cursor-extensions.txt 2>/dev/null || true
 
 echo "done. check: git diff --stat"

@@ -1,0 +1,9 @@
+#!/bin/bash
+# Wrapper for 99 to run opencode non-interactively
+# 99 passes the prompt via stdin, we need to capture it and use 'opencode run'
+
+# Read the prompt from stdin
+PROMPT=$(cat)
+
+# Run opencode with the run command and the prompt
+opencode run "$PROMPT"

@@ -3,7 +3,6 @@ helium-browser-bin
 mongodb-bin
 mongodb-compass-bin
 postman-bin
-snapd
 swagger-ui
 t2stock-bin
 vesktop-bin
