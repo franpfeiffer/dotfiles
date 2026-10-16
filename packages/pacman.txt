@@ -111,7 +111,6 @@ nss-mdns
 nwg-displays
 obs-studio
 omarchy-keyring
-omarchy-nvim
 openbsd-netcat
 opencode
 opencv

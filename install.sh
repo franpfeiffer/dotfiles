@@ -18,8 +18,8 @@ rsync -a --backup --suffix=".pre-dotfiles" home/ "$HOME/"
 
 [ -d ~/.oh-my-zsh ] || RUNZSH=no KEEP_ZSHRC=yes sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 [ -d ~/tpm ] || git clone https://github.com/tmux-plugins/tpm ~/tpm
-# Omarchy trae su nvim (LazyVim): lo aparto y pongo el mío
-[ -d ~/.config/nvim/.git ] || { [ -d ~/.config/nvim ] && mv ~/.config/nvim ~/.config/nvim.omarchy; git clone https://github.com/franpfeiffer/nvim.git ~/.config/nvim; }
+# Omarchy trae su nvim (LazyVim): lo borro y pongo el mío
+[ -d ~/.config/nvim/.git ] || { rm -rf ~/.config/nvim ~/.local/share/nvim ~/.local/state/nvim ~/.cache/nvim; git clone https://github.com/franpfeiffer/nvim.git ~/.config/nvim; }
 [ -d ~/.emacs.d ] || { git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.emacs.d && ~/.emacs.d/bin/doom install --force; }
 
 # brew (f4, t2, go)

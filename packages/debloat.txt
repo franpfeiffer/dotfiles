@@ -16,3 +16,4 @@ cups-pdf
 system-config-printer
 tobi-try
 ruby
+omarchy-nvim
