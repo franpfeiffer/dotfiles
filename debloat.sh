@@ -1,21 +1,21 @@
 #!/usr/bin/env bash
-# Saca de Omarchy lo que no uso. Lista de paquetes en packages/debloat.txt
+# Remove the Omarchy stuff I don't use. Package list in packages/debloat.txt
 set -euo pipefail
 cd "$(dirname "$0")"
 
-# paquetes (de a uno: si uno falla no frena al resto)
+# packages (one at a time: one failure doesn't stop the rest)
 while read -r p; do
-  [ -n "$p" ] && pacman -Qq "$p" &>/dev/null && { sudo pacman -Rns --noconfirm "$p" || echo "no pude sacar $p"; }
+  [ -n "$p" ] && pacman -Qq "$p" &>/dev/null && { sudo pacman -Rns --noconfirm "$p" || echo "could not remove $p"; }
 done < packages/debloat.txt
 
-# atajos de hypr de apps/webapps borradas
+# hypr bindings for removed apps/webapps
 sed -i -E '/hey\.com|grok\.com|x\.com|messages\.google|photos\.google|chatgpt\.com|youtube\.com|typora|signal|obsidian|1password|cliamp/d' ~/.config/hypr/bindings.conf
 
-# lanzadores de webapps (menos WhatsApp)
+# webapp launchers (except WhatsApp)
 for f in ~/.local/share/applications/*.desktop; do
   grep -q 'omarchy-launch-webapp\|omarchy-webapp-handler' "$f" && [[ "$f" != *whatsapp* ]] && rm -f "$f"
 done
 
-# ponytail: las configs de las apps (~/.config/Signal, etc) quedan, borrarlas a mano si querés
+# ponytail: app configs (~/.config/Signal, etc) are kept, delete them by hand if you want
 hyprctl reload &>/dev/null || true
-echo "debloat listo"
+echo "debloat done"

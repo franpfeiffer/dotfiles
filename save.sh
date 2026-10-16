@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Copia configs de esta máquina al repo. Correr cuando cambies algo, después commit.
+# Copy this machine's configs into the repo. Run after changing something, then commit.
 set -euo pipefail
 cd "$(dirname "$0")"
 
-# ponytail: lista explícita, agregar acá lo que quieras versionar
+# ponytail: explicit list, add here whatever you want versioned
 DOTS=(
   .zshrc .tmux.conf .XCompose .gitignore_global
   .local/bin/tmux-sessionizer
@@ -20,14 +20,14 @@ DOTS=(
 
 rm -rf home && mkdir home
 for d in "${DOTS[@]}"; do
-  [ -e "$HOME/$d" ] || { echo "skip $d (no existe)"; continue; }
+  [ -e "$HOME/$d" ] || { echo "skip $d (not found)"; continue; }
   mkdir -p "home/$(dirname "$d")"
   rsync -a --exclude='.git' --exclude='*.bak*' --exclude='node_modules' "$HOME/$d" "home/$(dirname "$d")/"
 done
 
-# secretos fuera del repo: van en ~/.secrets (no versionado)
+# secrets stay out of the repo: they live in ~/.secrets (not versioned)
 sed -i -E '/^export [A-Z_]*(KEY|TOKEN|SECRET|PASSWORD)[A-Z_]*=/d' home/.zshrc
-# MCP de Neon = laburo, afuera
+# Neon MCP is work stuff, keep it out
 python3 - <<'PY'
 import json
 for f, k in [("home/.config/opencode/opencode.json", "mcp"), ("home/.config/zed/settings.json", "context_servers")]:
@@ -39,7 +39,7 @@ for f, k in [("home/.config/opencode/opencode.json", "mcp"), ("home/.config/zed/
 PY
 grep -q 'source ~/.secrets' home/.zshrc || printf '\n[ -f ~/.secrets ] && source ~/.secrets\n' >> home/.zshrc
 
-# términos privados (laburo, etc) en ~/.dotfiles-private, uno por línea, fuera del repo
+# private terms (work, etc) in ~/.dotfiles-private, one per line, outside the repo
 if [ -f ~/.dotfiles-private ]; then
   while read -r t; do
     [ -n "$t" ] || continue
@@ -48,12 +48,12 @@ if [ -f ~/.dotfiles-private ]; then
   done < ~/.dotfiles-private
 fi
 
-# lo de debloat.txt nunca entra a las listas
-# go va por pacman (acá está por brew)
+# nothing from debloat.txt goes into the lists
+# go comes from pacman (installed via brew on this machine)
 { pacman -Qqen; echo go; } | sort -u | grep -vxFf packages/debloat.txt > packages/pacman.txt
 pacman -Qqem | grep -vxFf packages/debloat.txt | grep -v -- '-debug$' | grep -vx omarchy-walker > packages/aur.txt
-# brew solo para mis taps; el resto (go, etc) va por pacman
+# brew only for my own taps; everything else (go, etc) comes from pacman
 command -v brew >/dev/null && brew leaves | grep '^franpfeiffer/' > packages/brew.txt
 command -v cursor >/dev/null && cursor --list-extensions | grep -vi neon | grep -viFf ~/.dotfiles-private > packages/cursor-extensions.txt 2>/dev/null || true
 
-echo "listo. revisá: git diff --stat"
+echo "done. check: git diff --stat"

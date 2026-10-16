@@ -1,21 +1,15 @@
 # dotfiles
 
-## Subir
-
-```bash
-cd ~/dotfiles && gh repo create dotfiles --private --source . --push
-```
-
-## Antes de formatear
+## Before reinstalling
 
 ```bash
 ~/dotfiles/save.sh
 cd ~/dotfiles && git add -A && git commit -m "update" && git push
 ```
 
-Guardar `~/.secrets` aparte (no está en el repo).
+Back up `~/.secrets` separately (it's not in the repo).
 
-## Instalar
+## Install
 
 ```bash
 gh auth login
@@ -23,4 +17,4 @@ git clone https://github.com/franpfeiffer/dotfiles.git ~/dotfiles
 ~/dotfiles/install.sh
 ```
 
-Copiar `~/.secrets` y reiniciar sesión.
+Copy `~/.secrets` back and log out/in.
