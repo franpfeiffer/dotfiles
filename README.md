@@ -2,12 +2,29 @@
 
 Mi setup de Arch + Omarchy: paquetes, configs y debloat. Un solo script lo instala todo.
 
+## Primera vez: subir a GitHub
+
+Con `gh` logueado:
+
+```bash
+cd ~/dotfiles && gh repo create dotfiles --private --source . --push
+```
+
+Dejarlo **privado**. Las configs no tienen claves, pero muestran rutas y la estructura de la máquina.
+
+## Antes de formatear
+
+1. Pasar las API keys de `~/.zshrc` a `~/.secrets` (ver [Secretos](#secretos)).
+2. Guardar `~/.secrets` en un lugar seguro (gestor de contraseñas o pendrive cifrado). No se sube a GitHub, así que si no lo guardás, en la máquina nueva no está.
+3. Correr `~/dotfiles/save.sh` y hacer push, para que el repo tenga lo último.
+
 ## Instalar en una máquina nueva
 
 1. Instalar Omarchy normalmente desde el pendrive.
 2. Abrir una terminal y correr:
 
 ```bash
+gh auth login
 git clone https://github.com/franpfeiffer/dotfiles.git ~/dotfiles
 ~/dotfiles/install.sh
 ```
@@ -26,7 +43,9 @@ git clone https://github.com/franpfeiffer/dotfiles.git ~/dotfiles
 
 Se puede correr varias veces sin romper nada.
 
-> Si el repo es privado, antes de clonar hay que loguearse: `gh auth login`.
+`gh auth login` hace falta porque el repo es privado.
+
+No está probado todavía en una máquina limpia: la primera instalación real es la prueba. Si algo falla, el script frena y muestra dónde.
 
 ## Secretos
 
