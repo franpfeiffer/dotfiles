@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Copy this machine's configs into the repo. Run after changing something, then commit.
+# copy this machine's configs into the repo. run after changing something, then commit.
 set -euo pipefail
 cd "$(dirname "$0")"
 
@@ -27,7 +27,7 @@ done
 
 # secrets stay out of the repo: they live in ~/.secrets (not versioned)
 sed -i -E '/^export [A-Z_]*(KEY|TOKEN|SECRET|PASSWORD)[A-Z_]*=/d' home/.zshrc
-# Neon MCP is work stuff, keep it out
+# neon mcp is work stuff, keep it out
 python3 - <<'PY'
 import json
 for f, k in [("home/.config/opencode/opencode.json", "mcp"), ("home/.config/zed/settings.json", "context_servers")]:
