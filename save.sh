@@ -50,7 +50,8 @@ fi
 
 # lo de debloat.txt nunca entra a las listas
 pacman -Qqen | grep -vxFf packages/debloat.txt > packages/pacman.txt
-pacman -Qqem | grep -vxFf packages/debloat.txt > packages/aur.txt
+pacman -Qqem | grep -vxFf packages/debloat.txt | grep -v -- '-debug$' | grep -vx omarchy-walker > packages/aur.txt
+command -v brew >/dev/null && brew leaves > packages/brew.txt
 command -v cursor >/dev/null && cursor --list-extensions | grep -vi neon | grep -viFf ~/.dotfiles-private > packages/cursor-extensions.txt 2>/dev/null || true
 
 echo "listo. revisá: git diff --stat"

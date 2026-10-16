@@ -2,9 +2,7 @@ discord-canary-electron-bin
 helium-browser-bin
 mongodb-bin
 mongodb-compass-bin
-omarchy-walker
 paru
-paru-debug
 postman-bin
 snapd
 swagger-ui
