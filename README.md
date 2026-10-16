@@ -4,7 +4,7 @@
 
 ```bash
 ~/dotfiles/save.sh
-cd ~/dotfiles && git add -a && git commit -m "update" && git push
+cd ~/dotfiles && git add -A && git commit -m "update" && git push
 ```
 
 back up `~/.secrets` separately (it's not in the repo).
