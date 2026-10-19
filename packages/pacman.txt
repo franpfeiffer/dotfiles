@@ -1,5 +1,4 @@
 7zip
-alacritty
 asdcontrol
 aspnet-runtime
 base
@@ -17,7 +16,6 @@ chromium
 chrpath
 clang
 cloudflared
-cursor-bin
 dmidecode
 docker
 docker-buildx
@@ -70,9 +68,6 @@ imagemagick
 impala
 imv
 inetutils
-intel-lpmd
-intel-media-driver
-intel-ucode
 inxi
 iwd
 jdk21-openjdk
@@ -171,7 +166,6 @@ uwsm
 valkey
 vim
 vpl-gpu-rt
-vulkan-intel
 waybar
 whois
 wireless-regdb

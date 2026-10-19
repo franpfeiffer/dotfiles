@@ -1,5 +1,0 @@
-mvllow.rose-pine
-rust-lang.rust-analyzer
-solomonkinard.git-blame
-tahayvr.matteblack
-vscodevim.vim
