@@ -10,12 +10,11 @@ DOTS=(
   .config/hypr .config/waybar .config/walker .config/elephant .config/mako
   .config/swayosd .config/uwsm .config/omarchy .config/environment.d
   .config/systemd/user .config/fontconfig .config/fcitx5
-  .config/ghostty .config/kitty .config/alacritty .config/tmux .config/starship.toml
+  .config/ghostty .config/tmux .config/starship.toml
   .config/git .config/btop .config/fastfetch .config/lazygit .config/lazydocker
-  .config/mise .config/zed .config/doom .config/mimeapps.list .config/user-dirs.dirs
+  .config/mise .config/doom .config/mimeapps.list .config/user-dirs.dirs
   .config/xdg-terminals.list .config/brave-flags.conf .config/chromium-flags.conf
   .config/opencode/opencode.json .config/opencode/tui.json
-  .config/Cursor/User/settings.json .config/Cursor/User/keybindings.json .config/Cursor/User/snippets
 )
 
 rm -rf home && mkdir home
