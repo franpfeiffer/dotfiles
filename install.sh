@@ -14,6 +14,7 @@ fi
 Y=(yay --needed --noconfirm --sudoloop --answerclean None --answerdiff None --answeredit None --removemake)
 "${Y[@]}" -Syu $(<packages/yay.txt) || for p in $(<packages/yay.txt); do "${Y[@]}" -S "$p" || echo "yay failed: $p"; done
 
+mkdir -p ~/work ~/personal
 rsync -a --backup --suffix=".pre-dotfiles" home/ "$HOME/"
 
 [ -d ~/.config/nvim/.git ] || { rm -rf ~/.config/nvim ~/.local/share/nvim ~/.local/state/nvim ~/.cache/nvim; git clone https://github.com/franpfeiffer/nvim.git ~/.config/nvim; } || echo "nvim failed, check it"
