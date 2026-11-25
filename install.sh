@@ -2,6 +2,7 @@
 # fresh install: ./install.sh   (on a freshly installed arch/omarchy)
 set -euo pipefail
 cd "$(dirname "$0")"
+exec > >(tee ~/dotfiles-install.log) 2>&1  # keep a log: the session closes at the end
 
 # ask for sudo once, keep it alive until the script ends (no prompts later)
 sudo -v
@@ -41,4 +42,11 @@ systemctl --user enable elephant.service swayosd-server.service omarchy-battery-
 
 [ -f ~/.secrets ] || { touch ~/.secrets; chmod 600 ~/.secrets; echo ">> fill in ~/.secrets with your api keys"; }
 [ "$SHELL" = "$(command -v zsh)" ] || sudo chsh -s "$(command -v zsh)" "$USER"
-echo "done. log out and back in."
+# log out so zsh, services, etc. apply. if something failed, show it and wait
+F=$(grep -E '^yay failed: | failed, check it$' ~/dotfiles-install.log || true)
+if [ -n "$F" ]; then
+  echo "$F"; read -rp "done with failures (log: ~/dotfiles-install.log). enter to log out " </dev/tty
+else
+  echo "done. logging out in 10s (ctrl+c to stay)"; sleep 10
+fi
+omarchy-system-logout
