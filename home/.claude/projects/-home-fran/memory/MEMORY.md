@@ -1,0 +1,1 @@
+- [No coauthor in commits](no-coauthor-commits.md) — never add Claude Co-Authored-By/attribution to commits or PRs

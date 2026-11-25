@@ -35,8 +35,8 @@ systemctl --user enable elephant.service swayosd-server.service omarchy-battery-
 [ "$SHELL" = "$(command -v zsh)" ] || sudo chsh -s "$(command -v zsh)" "$USER"
 F=$(grep -E '^yay failed: | failed, check it$' ~/dotfiles-install.log || true)
 if [ -n "$F" ]; then
-  echo "$F"; read -rp "done with failures (log: ~/dotfiles-install.log). enter to log out " </dev/tty
+  echo "$F"; read -rp "done with failures (log: ~/dotfiles-install.log). enter to reboot " </dev/tty
 else
-  echo "done. logging out in 10s (ctrl+c to stay)"; sleep 10
+  echo "done. rebooting in 10s (ctrl+c to stay)"; sleep 10
 fi
-omarchy-system-logout
+omarchy-system-reboot

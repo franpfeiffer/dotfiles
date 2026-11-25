@@ -133,6 +133,6 @@ case ":$PATH:" in
 esac
 # pnpm end
 
-eval "$(mise activate zsh)"
-
 [ -f ~/.secrets ] && source ~/.secrets
+
+eval "$(mise activate zsh)"

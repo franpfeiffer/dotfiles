@@ -12,6 +12,7 @@ DOTS=(
   .config/git .config/btop .config/fastfetch .config/lazygit .config/lazydocker
   .config/mise .config/mimeapps.list .config/user-dirs.dirs
   .config/xdg-terminals.list .config/brave-flags.conf .config/chromium-flags.conf
+  .claude/settings.json .claude/CLAUDE.md .claude/skills .claude/projects/-home-fran/memory .agents .codex/config.toml
 )
 
 rm -rf home && mkdir home
@@ -21,6 +22,15 @@ for d in "${DOTS[@]}"; do
   rsync -a --exclude='.git' --exclude='*.bak*' --exclude='node_modules' "$HOME/$d" "home/$(dirname "$d")/"
 done
 
+python3 - <<'PY2'
+import json
+f = "home/.claude/settings.json"
+d = json.load(open(f))
+d.pop("autoMode", None)
+d["statusLine"] = {"type": "command", "command": "bash -c 'bash \"$(ls ~/.claude/plugins/cache/caveman/caveman/*/hooks/caveman-statusline.sh | tail -1)\"'"}
+json.dump(d, open(f, "w"), indent=2)
+PY2
+awk '/^\[/{skip=($0 ~ /^\[(projects\.|mcp_servers\.Neon)/)} !skip' home/.codex/config.toml > home/.codex/c && mv home/.codex/c home/.codex/config.toml
 sed -i -E '/^export [A-Z_]*(KEY|TOKEN|SECRET|PASSWORD)[A-Z_]*=/d' home/.zshrc
 grep -q 'mise activate' home/.zshrc || printf '\neval "$(mise activate zsh)"\n' >> home/.zshrc
 grep -q 'source ~/.secrets' home/.zshrc || printf '\n[ -f ~/.secrets ] && source ~/.secrets\n' >> home/.zshrc
