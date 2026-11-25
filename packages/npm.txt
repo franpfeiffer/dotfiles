@@ -1,5 +1,2 @@
-@expo/ngrok
 @openai/codex
-clerk
-pnpm
 vercel

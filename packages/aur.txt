@@ -1,3 +1,0 @@
-helium-browser-bin
-t2stock-bin
-vesktop-bin
