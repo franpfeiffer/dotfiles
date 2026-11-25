@@ -11,6 +11,7 @@ if ! command -v yay >/dev/null; then
   git clone https://aur.archlinux.org/yay-bin.git /tmp/yay-bin
   (cd /tmp/yay-bin && makepkg -si --noconfirm)
 fi
+for i in $(seq 150); do [ -e /var/lib/pacman/db.lck ] || break; sleep 2; done
 Y=(yay --needed --noconfirm --sudoloop --answerclean None --answerdiff None --answeredit None --removemake)
 "${Y[@]}" -Syu $(<packages/yay.txt) || for p in $(<packages/yay.txt); do "${Y[@]}" -S "$p" || echo "yay failed: $p"; done
 
@@ -27,7 +28,7 @@ mise exec -- npm i -g $(<packages/npm.txt) || echo "npm failed, check it"
 
 command -v claude >/dev/null || curl -fsSL https://claude.ai/install.sh | bash || echo "claude failed, check it"
 
-./debloat.sh
+./debloat.sh || echo "debloat failed, check it"
 
 systemctl --user daemon-reload
 systemctl --user enable elephant.service swayosd-server.service omarchy-battery-monitor.timer 2>/dev/null || true
