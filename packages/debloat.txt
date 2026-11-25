@@ -1,5 +1,4 @@
 kdenlive
-localsend
 typora
 pinta
 xournalpp
