@@ -48,7 +48,7 @@ fi
 
 O=${OMARCHY_PATH:-/usr/share/omarchy}
 [ -d "$O/install" ] || O=~/.local/share/omarchy
-{ pacman -Qqe; echo go; echo love; } | sort -u | grep -vxFf <(cat packages/debloat.txt packages/skip.txt "$O"/install/omarchy-*.packages 2>/dev/null | grep -v '^#') | grep -v -- '-debug$' | grep -v '^omarchy' > packages/yay.txt
+{ pacman -Qqe; echo go; echo love; echo tmux-resurrect; echo tmux-continuum-git; } | sort -u | grep -vxFf <(cat packages/debloat.txt packages/skip.txt "$O"/install/omarchy-*.packages 2>/dev/null | grep -v '^#') | grep -v -- '-debug$' | grep -v '^omarchy' > packages/yay.txt
 command -v brew >/dev/null && { brew leaves | grep '^franpfeiffer/' > packages/brew.txt || true; }
 npm ls -g --depth=0 --parseable 2>/dev/null | tail -n +2 | sed 's#.*/node_modules/##' | grep -vxE 'npm|corepack|neon|pnpm' | grep -vxFf packages/skip.txt > packages/npm.txt || true
 

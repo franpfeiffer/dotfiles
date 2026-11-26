@@ -37,6 +37,8 @@ seahorse
 shellcheck
 solaar
 t2stock-bin
+tmux-continuum-git
+tmux-resurrect
 tree
 vesktop-bin
 vim
