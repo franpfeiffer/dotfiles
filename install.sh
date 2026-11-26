@@ -12,7 +12,7 @@ if ! command -v yay >/dev/null; then
   (cd /tmp/yay-bin && makepkg -si --noconfirm)
 fi
 for i in $(seq 150); do [ -e /var/lib/pacman/db.lck ] || break; sleep 2; done
-command -v omarchy-update >/dev/null && { omarchy-update -y || echo "omarchy update failed, check it"; }
+command -v omarchy-update >/dev/null && { omarchy-update -y || omarchy-update -y || echo "omarchy update failed, check it"; }
 Y=(yay --needed --noconfirm --sudoloop --answerclean None --answerdiff None --answeredit None --removemake)
 P=$(pacman -T $(<packages/yay.txt) || true)
 [ -z "$P" ] || "${Y[@]}" -S $P || for p in $P; do "${Y[@]}" -S "$p" || echo "yay failed: $p"; done
