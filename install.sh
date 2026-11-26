@@ -13,10 +13,18 @@ if ! command -v yay >/dev/null; then
 fi
 for i in $(seq 150); do [ -e /var/lib/pacman/db.lck ] || break; sleep 2; done
 Y=(yay --needed --noconfirm --sudoloop --answerclean None --answerdiff None --answeredit None --removemake)
-"${Y[@]}" -Syu $(<packages/yay.txt) || for p in $(<packages/yay.txt); do "${Y[@]}" -S "$p" || echo "yay failed: $p"; done
+P=$(pacman -T $(<packages/yay.txt) || true)
+[ -z "$P" ] || "${Y[@]}" -S $P || for p in $P; do "${Y[@]}" -S "$p" || echo "yay failed: $p"; done
 
 mkdir -p ~/work ~/personal
 rsync -a --backup --suffix=".pre-dotfiles" home/ "$HOME/"
+M=~/.claude/projects/$(tr / - <<<"$HOME")
+[ -d "$M" ] || mv ~/.claude/projects/-home-fran "$M" 2>/dev/null || true
+if [ -f ~/.config/hypr/hyprland.lua ]; then
+  for f in hypr/*.lua; do cp -b --suffix=.pre-dotfiles "$f" ~/.config/hypr/; done
+else
+  echo "hypr config not lua (old omarchy?), skipped, check it"
+fi
 
 [ -d ~/.config/nvim/.git ] || { rm -rf ~/.config/nvim ~/.local/share/nvim ~/.local/state/nvim ~/.cache/nvim; git clone https://github.com/franpfeiffer/nvim.git ~/.config/nvim; } || echo "nvim failed, check it"
 
@@ -30,9 +38,6 @@ command -v claude >/dev/null || curl -fsSL https://claude.ai/install.sh | bash |
 
 ./debloat.sh || echo "debloat failed, check it"
 
-systemctl --user daemon-reload
-systemctl --user enable elephant.service swayosd-server.service omarchy-battery-monitor.timer 2>/dev/null || true
-
 [ -f ~/.secrets ] || { touch ~/.secrets; chmod 600 ~/.secrets; echo ">> fill in ~/.secrets with your api keys"; }
 [ "$SHELL" = "$(command -v zsh)" ] || sudo chsh -s "$(command -v zsh)" "$USER"
 F=$(grep -E '^yay failed: | failed, check it$' ~/dotfiles-install.log || true)
@@ -41,4 +46,4 @@ if [ -n "$F" ]; then
 else
   echo "done. rebooting in 10s (ctrl+c to stay)"; sleep 10
 fi
-omarchy-system-reboot
+systemctl reboot

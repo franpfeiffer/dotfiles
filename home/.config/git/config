@@ -30,4 +30,4 @@
 	name = Francisco Pfeiffer
 	email = franciscopfeiffer.business@gmail.com
 [core]
-	excludesfile = /home/fran/.gitignore_global
+	excludesfile = ~/.gitignore_global

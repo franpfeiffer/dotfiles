@@ -8,7 +8,7 @@
 
 ## install
 
-on a fresh omarchy:
+on a fresh omarchy 4.x (lua hyprland config):
 
 ```bash
 gh auth login -p ssh -w && GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=accept-new" gh repo clone franpfeiffer/dotfiles ~/dotfiles && ~/dotfiles/install.sh

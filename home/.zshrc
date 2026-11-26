@@ -126,7 +126,7 @@ eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
 export XDG_DATA_DIRS="/home/linuxbrew/.linuxbrew/share:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
 
 # pnpm
-export PNPM_HOME="/home/fran/.local/share/pnpm"
+export PNPM_HOME="$HOME/.local/share/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;

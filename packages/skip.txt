@@ -21,3 +21,4 @@ cursor-bin
 electron37-bin
 clerk
 @expo/ngrok
+ex-vi-compat
