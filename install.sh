@@ -39,6 +39,9 @@ mise exec -- npm i -g $(<packages/npm.txt) || echo "npm failed, check it"
 
 command -v claude >/dev/null || curl -fsSL https://claude.ai/install.sh | bash || echo "claude failed, check it"
 
+for d in "terminal ghostty" "browser zen" "editor nvim"; do
+  command -v omarchy-default-${d% *} >/dev/null && { omarchy-default-${d% *} ${d#* } || echo "default ${d} failed, check it"; }
+done
 ./debloat.sh || echo "debloat failed, check it"
 
 [ -f ~/.secrets ] || { touch ~/.secrets; chmod 600 ~/.secrets; echo ">> fill in ~/.secrets with your api keys"; }
