@@ -17,6 +17,8 @@ P=$(pacman -T $(<packages/yay.txt) || true)
 [ -z "$P" ] || "${Y[@]}" -S $P || for p in $P; do "${Y[@]}" -S "$p" || echo "yay failed: $p"; done
 
 mkdir -p ~/work ~/personal
+mkdir -p ~/.local/state/omarchy/{toggles,indicators}
+touch ~/.local/state/omarchy/toggles/{screensaver-off,suspend-off} ~/.local/state/omarchy/indicators/stay-awake
 rsync -a --backup --suffix=".pre-dotfiles" home/ "$HOME/"
 M=~/.claude/projects/$(tr / - <<<"$HOME")
 [ -d "$M" ] || mv ~/.claude/projects/-home-fran "$M" 2>/dev/null || true
