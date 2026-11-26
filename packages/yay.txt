@@ -26,7 +26,6 @@ moreutils
 mplayer
 mtr
 nerdfetch
-nodejs-lts-jod
 nwg-displays
 oh-my-zsh-git
 openbsd-netcat
