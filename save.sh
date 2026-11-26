@@ -43,8 +43,8 @@ if [ -f ~/.dotfiles-private ]; then
   done < ~/.dotfiles-private
 fi
 
-{ pacman -Qqe; echo go; echo love; } | sort -u | grep -vxFf packages/debloat.txt | grep -v -- '-debug$' | grep -vx omarchy-walker > packages/yay.txt
+{ pacman -Qqe; echo go; echo love; } | sort -u | grep -vxFf packages/debloat.txt | grep -v -- '-debug$' | grep -vx omarchy-walker | grep -vxFf packages/skip.txt > packages/yay.txt
 command -v brew >/dev/null && { brew leaves | grep '^franpfeiffer/' > packages/brew.txt || true; }
-npm ls -g --depth=0 --parseable 2>/dev/null | tail -n +2 | sed 's#.*/node_modules/##' | grep -vxE 'npm|corepack|neon' > packages/npm.txt || true
+npm ls -g --depth=0 --parseable 2>/dev/null | tail -n +2 | sed 's#.*/node_modules/##' | grep -vxE 'npm|corepack|neon|pnpm' | grep -vxFf packages/skip.txt > packages/npm.txt || true
 
 echo "done. check: git diff --stat"

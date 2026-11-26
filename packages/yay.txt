@@ -93,6 +93,7 @@ limine-snapper-sync
 linux
 linux-firmware
 llvm
+localsend
 love
 lsof
 luarocks
